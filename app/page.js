@@ -1,6 +1,7 @@
 import Products from "./products/page";
 
 export default async function Home() {
+  
   const getProducts = async () => {
     const res = await fetch('http://localhost:3000/api/products');
     const data = await res.json();
@@ -11,7 +12,7 @@ export default async function Home() {
   return (
     <>
       <main className="flex min-h-screen flex-col items-center p-5">
-        <Products products={products}/>
+        <Products products={products} />
       </main>
     </>
   );

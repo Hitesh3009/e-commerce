@@ -14,6 +14,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
+        {/* Uses material ui */}
         <AppRouterCacheProvider>
           {children}
         </AppRouterCacheProvider>
