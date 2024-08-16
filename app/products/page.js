@@ -15,10 +15,10 @@ const Products = ({ products }) => {
     }
 
     // Handles the item count whenever the cart button is clicked
-    const incrementItemCount = async(prod) => {
+    const incrementItemCount = async (prod) => {
         setTotalItemCount(prevCount => prevCount + 1); // increments the item count
         setIsItemAdded(true); // sets alert true
-        let updatedProdArr=[...prodArr, prod]; // this array is made so as to avoid the issue where the updated state lags one step behind.
+        let updatedProdArr = [...prodArr, prod]; // this array is made so as to avoid the issue where the updated state lags one step behind.
         setProdArr(updatedProdArr); // adds newly added product in array retaining the already added ones
 
         setTimeout(() => {
@@ -28,17 +28,21 @@ const Products = ({ products }) => {
         await addedProd(updatedProdArr);
     }
 
-    const addedProd=async(prod)=>{
-        try{
-            const res=await fetch(`/api/cart`,{
+    const addedProd = async (prod) => {
+        try {
+            const req = await fetch(`/api/cart`, {
                 method: 'POST',
-                headers:{'Content-Type': 'application/json'},
-                body: JSON.stringify({prod})
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(prod)
             });
-        }
-        catch(e){
-            console.error(e);
-            return new Response(JSON.stringify({error:'Failed to fetch the added products'}));
+
+            // Check if the request was successful
+            if (!req.ok) {
+                throw new Error(`Failed to add product. Status: ${res.status}`);
+            }
+
+        } catch (e) {
+            console.error('Error adding product to cart:', e.message);
         }
     }
 
@@ -75,7 +79,7 @@ const Products = ({ products }) => {
 
                             {/* Shows the image */}
                             <div className='Imagecontainer flex justify-center items-center  h-40 w-full rounded-full'>
-    
+
                                 <div className='productImage w-32 h-32 relative'>
                                     <Image src={item.image} fill sizes='auto' alt='Product Image' priority={true} />
                                 </div>
@@ -84,7 +88,7 @@ const Products = ({ products }) => {
 
                             {/* Displays the product title */}
                             <div className='ProductNameContainer  mt-3 flex flex-col items-center'>
-                          
+
                                 <div className='flex-grow'>
                                     <p className='text-justify p-2 text-[0.9rem] font-semibold'>{item.title}</p>
                                 </div>
@@ -100,7 +104,7 @@ const Products = ({ products }) => {
 
                                 {/* Displays the cart icon and handles the increment in item count and passes the added product info to the incrementItemCount function*/}
                                 <div className='AddToCartBtn'>
-                                    <AddToCart incrementItemCount={() => incrementItemCount({ title: item.title, image: item.image, price: item.price })}/>
+                                    <AddToCart incrementItemCount={() => incrementItemCount({ title: item.title, image: item.image, price: item.price })} />
                                 </div>
                             </div>
                         </div>
