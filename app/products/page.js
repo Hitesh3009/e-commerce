@@ -4,22 +4,37 @@ import Image from 'next/image';
 import AddToCart from '@/components/AddToCart';
 import { Alert } from '@mui/material';
 
-const Products = ({products}) => {
+const Products = ({ products }) => {
     const [totalItemCount, setTotalItemCount] = useState(0);
-    const [isItemAdded,setIsItemAdded] = useState(false);
-
+    const [isItemAdded, setIsItemAdded] = useState(false);
+    const [prodArr, setProdArr] = useState([]);
     const capitilizeFirstLetter = (word) => {
         return word.charAt(0).toUpperCase() + word.slice(1, word.length + 1).toLowerCase();
     }
 
-  // Handles the item count whenever the cart button is clicked
-    const incrementItemCount = ()=>{
-        setTotalItemCount(prevCount=>prevCount + 1);
+    // Handles the item count whenever the cart button is clicked
+    const incrementItemCount = async(prod) => {
+        setTotalItemCount(prevCount => prevCount + 1);
         setIsItemAdded(true); // sets alert true
-
+        setProdArr(prevArr => [...prevArr, prod]);
         setTimeout(() => {
-        setIsItemAdded(false); //disables the alert after 1.5s
+            setIsItemAdded(false); //disables the alert after 1.5s
         }, 1500);
+        await addedProd(prodArr);
+    }
+
+    const addedProd=async(prod)=>{
+        try{
+            const res=await fetch(`/api/cart`,{
+                method: 'POST',
+                headers:{'Content-Type': 'application/json'},
+                body: JSON.stringify({prod})
+            });
+        }
+        catch(e){
+            console.error(e);
+            return new Response(JSON.stringify({error:'Failed to fetch the added products'}));
+        }
     }
 
     return (
@@ -75,7 +90,7 @@ const Products = ({products}) => {
                                 </div>
                                 {/* Displays the cart icon and handles the increment in item count */}
                                 <div className='AddToCartBtn'>
-                                    <AddToCart incrementItemCount={incrementItemCount} addedProd={item}/>
+                                    <AddToCart incrementItemCount={() => incrementItemCount({ title: item.title, image: item.image, price: item.price })} addedProd={prodArr} />
                                 </div>
                             </div>
                         </div>

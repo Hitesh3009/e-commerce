@@ -1,40 +1,22 @@
 'use client'
 import React, { useState } from 'react'
 
-const AddToCart = ({incrementItemCount,addedProd}) => {
-    const [prodArr,setProdArr]=useState([]);
+const AddToCart = ({ incrementItemCount, addedProd }) => {
+    const [message,setMessage] = useState('');
 
-    const handleItemCount=async()=>{
+    const handleItemCount = () => {
         incrementItemCount();
-        
-        const updateProductDetails={
-            title:addedProd.title,
-            image:addedProd.image,
-            price:addedProd.price
-        }
-
-        const updateProdArr=[...prodArr,updateProductDetails];
-        setProdArr(updateProdArr);
-        await addedProducts(updateProdArr);
+        setMessage('Product added to the cart you can manage other things there.');
     }
-
-    const addedProducts=async(products)=>{
-        try {
-            const res=await fetch('/api/cart',{
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(products)
-            });
-            console.log(res);
-        } catch (error) {
-            console.error(error);
-        }
-    }
+    
     return (
+        <>  
         <div>
-            <button onClick={handleItemCount}><i className="fa-solid fa-cart-shopping text-2xl" /></button>
+            <button onClick={handleItemCount} className={`${message?'hidden':''}`}><i className={`fa-solid fa-cart-shopping text-2xl`} /></button>
+            <p className='text-[0.9rem] font-semibold mx-5 text-justify text-green-600'>{message?message:''}</p>
         </div>
+        </>
     )
 }
 
-export default AddToCart
+export default AddToCart;
