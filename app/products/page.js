@@ -5,22 +5,27 @@ import AddToCart from '@/components/AddToCart';
 import { Alert } from '@mui/material';
 
 const Products = ({ products }) => {
-    const [totalItemCount, setTotalItemCount] = useState(0);
-    const [isItemAdded, setIsItemAdded] = useState(false);
-    const [prodArr, setProdArr] = useState([]);
+    const [totalItemCount, setTotalItemCount] = useState(0); // set total item count
+    const [isItemAdded, setIsItemAdded] = useState(false); //set the state for alert
+    const [prodArr, setProdArr] = useState([]); // adds the products inside the cart
+
+    // Capitalize the first letter
     const capitilizeFirstLetter = (word) => {
         return word.charAt(0).toUpperCase() + word.slice(1, word.length + 1).toLowerCase();
     }
 
     // Handles the item count whenever the cart button is clicked
     const incrementItemCount = async(prod) => {
-        setTotalItemCount(prevCount => prevCount + 1);
+        setTotalItemCount(prevCount => prevCount + 1); // increments the item count
         setIsItemAdded(true); // sets alert true
-        setProdArr(prevArr => [...prevArr, prod]);
+        let updatedProdArr=[...prodArr, prod]; // this array is made so as to avoid the issue where the updated state lags one step behind.
+        setProdArr(updatedProdArr); // adds newly added product in array retaining the already added ones
+
         setTimeout(() => {
             setIsItemAdded(false); //disables the alert after 1.5s
         }, 1500);
-        await addedProd(prodArr);
+
+        await addedProd(updatedProdArr);
     }
 
     const addedProd=async(prod)=>{
@@ -53,7 +58,6 @@ const Products = ({ products }) => {
                     products.map((item) => (
                         <div className='card flex flex-col border-2 border-gray-400 w-64 md:w-72 p-3 my-7' key={item.id}>
 
-
                             <div className='flex justify-between items-center my-1'>
 
                                 {/* Displays the product ratings */}
@@ -71,26 +75,32 @@ const Products = ({ products }) => {
 
                             {/* Shows the image */}
                             <div className='Imagecontainer flex justify-center items-center  h-40 w-full rounded-full'>
+    
                                 <div className='productImage w-32 h-32 relative'>
                                     <Image src={item.image} fill sizes='auto' alt='Product Image' priority={true} />
                                 </div>
+
                             </div>
 
                             {/* Displays the product title */}
                             <div className='ProductNameContainer  mt-3 flex flex-col items-center'>
+                          
                                 <div className='flex-grow'>
                                     <p className='text-justify p-2 text-[0.9rem] font-semibold'>{item.title}</p>
                                 </div>
+
                             </div>
 
                             {/* Displays the product price */}
                             <div className='flex justify-between p-2 mt-auto'>
+
                                 <div className='ProductPrice'>
                                     <p>{item.price}</p>
                                 </div>
-                                {/* Displays the cart icon and handles the increment in item count */}
+
+                                {/* Displays the cart icon and handles the increment in item count and passes the added product info to the incrementItemCount function*/}
                                 <div className='AddToCartBtn'>
-                                    <AddToCart incrementItemCount={() => incrementItemCount({ title: item.title, image: item.image, price: item.price })} addedProd={prodArr} />
+                                    <AddToCart incrementItemCount={() => incrementItemCount({ title: item.title, image: item.image, price: item.price })}/>
                                 </div>
                             </div>
                         </div>
