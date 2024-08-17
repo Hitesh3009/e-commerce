@@ -4,21 +4,10 @@ import { Alert } from '@mui/material';
 import Link from 'next/link';
 import Cards from '@/components/Cards';
 const Products = ({ products }) => {
-    const [totalItemCount, setTotalItemCount] = useState(0); // set total item count
     const [isItemAdded, setIsItemAdded] = useState(false); //set the state for alert
+    const [totalItemCount, setTotalItemCount] = useState(0); // set total item count
     const [prodArr, setProdArr] = useState([]); // adds the products inside the cart
     
-    // Format the price
-    const formatPrice = (price, locale = 'en-US', currency = 'USD') => {
-        return new Intl.NumberFormat(locale, { style: 'currency', currency }).format(price);
-    };
-    
-
-    // Capitalize the first letter
-    const capitilizeFirstLetter = (word) => {
-        return word.charAt(0).toUpperCase() + word.slice(1, word.length + 1).toLowerCase();
-    }
-
     // Handles the item count whenever the cart button is clicked
     const incrementItemCount = async (prod) => {
         setTotalItemCount(prevCount => prevCount + 1); // increments the item count
@@ -66,7 +55,7 @@ const Products = ({ products }) => {
             </div>
 
             {/* Displays all the cards for the products inside the product array */}
-                <Cards products={products} capitilizeFirstLetter={capitilizeFirstLetter} formatPrice={formatPrice} incrementItemCount={incrementItemCount} hideCartIcon={false}/>
+                <Cards products={products} incrementItemCount={incrementItemCount} hideCartIcon={false} hideQuantityField={true}/>
         </>
     )
 }

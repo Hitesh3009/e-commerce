@@ -9,7 +9,7 @@ export async function GET() {
         });
     } catch (e) {
         console.error(e.message);
-        return new Response(JSON.stringify({ error: 'Error while fetching cart products' }, {
+        return new Response(JSON.stringify({ error: 'Internal Server error' }, {
             headers: { 'Content-Type': 'application/json' },
             status: 500
         }));

@@ -16,7 +16,6 @@ const AddToCart = ({ incrementItemCount }) => {
                 {/* Displays the message only when the cart icon is clicked and hides the cart icon for that product*/}
                 <button onClick={handleItemCount} className={`${message ? 'hidden' : ''}`}>Add To&nbsp;<i className={`fa-solid fa-cart-shopping text-2xl`} /></button>
                 <p className='text-[0.9rem] font-semibold mx-5 text-justify text-green-600'>{message ? message : ''}</p>
-            
             </div>
         </>
     )

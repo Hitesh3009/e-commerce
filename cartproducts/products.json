@@ -1,10 +1,12 @@
 [
     {
-        "title": "Mens Casual Slim Fit",
-        "image": "https://fakestoreapi.com/img/71YXzeOuslL._AC_UY879_.jpg",
-        "price": 15.99,
-        "rating": 2.1,
-        "category": "men's clothing",
-        "quantity": 1
+        "product_id": 1,
+        "title": "Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops",
+        "image": "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg",
+        "price": 109.95,
+        "rating": {
+            "rate": 3.9
+        },
+        "category": "men's clothing"
     }
 ]
