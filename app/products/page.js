@@ -55,7 +55,7 @@ const Products = ({ products }) => {
             </div>
 
             {/* Displays all the cards for the products inside the product array */}
-                <Cards products={products} incrementItemCount={incrementItemCount} hideCartIcon={false} hideQuantityField={true}/>
+                <Cards products={products} incrementItemCount={incrementItemCount} hideCartIcon={false} hideQuantityField={true} hideDeleteIcon={true}/>
         </>
     )
 }
