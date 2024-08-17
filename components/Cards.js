@@ -2,10 +2,10 @@
 import React from 'react'
 import Image from 'next/image';
 import AddToCart from '@/components/AddToCart';
-const Cards = ({ products,  incrementItemCount, hideCartIcon, hideQuantityField, quantity, handleQuantityChange }) => {
+const Cards = ({ products,  incrementItemCount, hideCartIcon, hideQuantityField, quantities, handleQuantityChange }) => {
 
       // Capitalize the first letter
-    const capitilizeFirstLetter = (word) => {
+    const capitalizeFirstLetter = (word) => {
         return word.charAt(0).toUpperCase() + word.slice(1, word.length + 1).toLowerCase();
     }
 
@@ -31,7 +31,7 @@ const Cards = ({ products,  incrementItemCount, hideCartIcon, hideQuantityField,
 
                             {/* Displays the product category */}
                             <div className='bg-gray-700 p-2 rounded-xl'>
-                                <p className='text-white text-sm md:text-base'>{capitilizeFirstLetter(item.category)}</p>
+                                <p className='text-white text-sm md:text-base'>{capitalizeFirstLetter(item.category)}</p>
                             </div>
 
                         </div>
@@ -63,14 +63,14 @@ const Cards = ({ products,  incrementItemCount, hideCartIcon, hideQuantityField,
 
                             {/* Displays the cart icon and handles the increment in item count and passes the added product info to the incrementItemCount function*/}
                             <div className={`AddToCartBtn ${hideCartIcon === true && 'hidden'}`}>
-                                <AddToCart incrementItemCount={() => incrementItemCount({ product_id: item.id, title: item.title, image: item.image, price: item.price, rating: { rate: item.rating.rate }, category: item.category })} />
+                                <AddToCart incrementItemCount={() => incrementItemCount({ id: item.id, title: item.title, image: item.image, price: item.price, rating: { rate: item.rating.rate }, category: item.category })} />
                             </div>
                         </div>
 
-                        <div className={`QuantityContainer ${hideQuantityField === true && 'hidden'}`}>
+                        <div className={`QuantityContainer ${hideQuantityField === true && 'hidden'}`} key={item.id}>
                             <div className='flex flex-col items-center'>
                                 <label htmlFor="quantity" className='text-lg font-semibold'>Quantity</label>
-                                <input type="number" aria-placeholder='Set the product quantity' className='outline-none border-2 border-black rounded-md mt-2 pl-3 py-1' value={quantity} onChange={handleQuantityChange}/>
+                                  <input type="number" aria-placeholder='Set the product quantity' className='outline-none border-2 border-black rounded-md mt-2 pl-3 py-1' value={quantities[item.id]||1} onChange={(e)=>handleQuantityChange(e,item.id)} min={0}/>
                             </div>
 
                         </div>
