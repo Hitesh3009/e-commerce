@@ -7,7 +7,7 @@ const CartsPage = () => {
     const [cartProdArr, setCartProdArr] = useState([]);
 
     const handleQuantityChange = (e,prod_id) => {
-        const newQuantity = e.target.value;
+        const newQuantity =e.target.value;
         setQuantities({
             ...quantities,
             [prod_id]:newQuantity>=0?newQuantity:0
@@ -36,7 +36,8 @@ const CartsPage = () => {
             }
             const data = await res.json();
             setCartProdArr(data);
-            const initialQuantity = {};
+
+            const initialQuantity={};
             data.forEach(ele=>{
                 initialQuantity[ele.id]=1;
             });
@@ -55,7 +56,7 @@ const CartsPage = () => {
         <div>
 
             {
-                cartProdArr ? <Cards products={cartProdArr} hideCartIcon={true} hideQuantityField={false} quantities={quantities} handleQuantityChange={handleQuantityChange} /> : <div className='flex flex-col h-screen flex-wrap'>
+                cartProdArr ? <Cards products={cartProdArr} hideCartIcon={true} hidequantitiesField={false} quantities={quantities} handleQuantityChange={handleQuantityChange} /> : <div className='flex flex-col h-screen flex-wrap'>
                     <div className='my-auto flex flex-col'>
                         <span className='text-2xl font-semibold text-center'>No products added to the cart</span>
                         <span className='text-2xl font-semibold text-center'>Please add products to manage them</span>

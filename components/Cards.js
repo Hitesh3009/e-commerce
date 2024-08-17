@@ -2,6 +2,7 @@
 import React from 'react'
 import Image from 'next/image';
 import AddToCart from '@/components/AddToCart';
+import ManageQuantity from './ManageQuantity';
 const Cards = ({ products,  incrementItemCount, hideCartIcon, hideQuantityField, quantities, handleQuantityChange }) => {
 
       // Capitalize the first letter
