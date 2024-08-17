@@ -1,13 +1,18 @@
 'use client';
 import React, { useState } from 'react';
-import Image from 'next/image';
-import AddToCart from '@/components/AddToCart';
 import { Alert } from '@mui/material';
-
+import Link from 'next/link';
+import Cards from '@/components/Cards';
 const Products = ({ products }) => {
     const [totalItemCount, setTotalItemCount] = useState(0); // set total item count
     const [isItemAdded, setIsItemAdded] = useState(false); //set the state for alert
     const [prodArr, setProdArr] = useState([]); // adds the products inside the cart
+    
+    // Format the price
+    const formatPrice = (price, locale = 'en-US', currency = 'USD') => {
+        return new Intl.NumberFormat(locale, { style: 'currency', currency }).format(price);
+    };
+    
 
     // Capitalize the first letter
     const capitilizeFirstLetter = (word) => {
@@ -28,6 +33,7 @@ const Products = ({ products }) => {
         await addedProd(updatedProdArr);
     }
 
+    // Function to post the added product data into the json file
     const addedProd = async (prod) => {
         try {
             const req = await fetch(`/api/cart`, {
@@ -42,7 +48,7 @@ const Products = ({ products }) => {
             }
 
         } catch (e) {
-            console.error('Error adding product to cart:', e.message);
+            console.error('Error adding product to cart:', e.message); // displays error message if anything happens while adding the data
         }
     }
 
@@ -54,65 +60,13 @@ const Products = ({ products }) => {
             </Alert>}
 
             {/* Shows the item count */}
-            <span className="bg-blue-500 px-4 py-2 text-white"><i className="fa-solid fa-cart-shopping text-xl" />&nbsp;&nbsp;{totalItemCount}</span>
+            <div className='flex flex-col items-center'>
+                <Link href='/cartspage' className=' hover:transform hover:scale-110'><button className="bg-blue-500 px-4 py-2.5 text-white"><i className="fa-solid fa-cart-shopping text-xl" />&nbsp;&nbsp;{totalItemCount}</button></Link>
+                <span className='mt-3 text-xl font-semibold'>Click on cart to manage products</span>
+            </div>
 
             {/* Displays all the cards for the products inside the product array */}
-            <div className='flex flex-wrap justify-evenly mx-10'>
-                {
-                    products.map((item) => (
-                        <div className='card flex flex-col border-2 border-gray-400 w-64 md:w-72 p-3 my-7' key={item.id}>
-
-                            <div className='flex justify-between items-center my-1'>
-
-                                {/* Displays the product ratings */}
-                                <div className='flex items-center space-x-2'>
-                                    <i className="fa-solid fa-star" style={{ color: '#FFD43B' }}></i>
-                                    <p>{item.rating.rate}</p>
-                                </div>
-
-                                {/* Displays the product category */}
-                                <div className='bg-gray-700 p-2 rounded-xl'>
-                                    <p className='text-white text-sm md:text-base'>{capitilizeFirstLetter(item.category)}</p>
-                                </div>
-
-                            </div>
-
-                            {/* Shows the image */}
-                            <div className='Imagecontainer flex justify-center items-center  h-40 w-full rounded-full'>
-
-                                <div className='productImage w-32 h-32 relative'>
-                                    <Image src={item.image} fill sizes='auto' alt='Product Image' priority={true} />
-                                </div>
-
-                            </div>
-
-                            {/* Displays the product title */}
-                            <div className='ProductNameContainer  mt-3 flex flex-col items-center'>
-
-                                <div className='flex-grow'>
-                                    <p className='text-justify p-2 text-[0.9rem] font-semibold'>{item.title}</p>
-                                </div>
-
-                            </div>
-
-                            {/* Displays the product price */}
-                            <div className='flex justify-between p-2 mt-auto'>
-
-                                <div className='ProductPrice'>
-                                    <p>{item.price}</p>
-                                </div>
-
-                                {/* Displays the cart icon and handles the increment in item count and passes the added product info to the incrementItemCount function*/}
-                                <div className='AddToCartBtn'>
-                                    <AddToCart incrementItemCount={() => incrementItemCount({ title: item.title, image: item.image, price: item.price })} />
-                                </div>
-                            </div>
-                        </div>
-
-                    )
-                    )
-                }
-            </div>
+                <Cards products={products} capitilizeFirstLetter={capitilizeFirstLetter} formatPrice={formatPrice} incrementItemCount={incrementItemCount} hideCartIcon={false}/>
         </>
     )
 }
