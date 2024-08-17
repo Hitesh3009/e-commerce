@@ -2,7 +2,6 @@
 import React from 'react'
 import Image from 'next/image';
 import AddToCart from '@/components/AddToCart';
-import ManageQuantity from './ManageQuantity';
 const Cards = ({ products,  incrementItemCount, hideCartIcon, hideQuantityField, quantities, handleQuantityChange }) => {
 
       // Capitalize the first letter
@@ -68,10 +67,10 @@ const Cards = ({ products,  incrementItemCount, hideCartIcon, hideQuantityField,
                             </div>
                         </div>
 
-                        <div className={`QuantityContainer ${hideQuantityField === true && 'hidden'}`} key={item.id}>
+                        <div className={`QuantityContainer ${hideQuantityField === true && 'hidden'}`} >
                             <div className='flex flex-col items-center'>
                                 <label htmlFor="quantity" className='text-lg font-semibold'>Quantity</label>
-                                  <input type="number" aria-placeholder='Set the product quantity' className='outline-none border-2 border-black rounded-md mt-2 pl-3 py-1' value={quantities[item.id]||1} onChange={(e)=>handleQuantityChange(e,item.id)} min={0}/>
+                                  <input type="number" aria-placeholder='Set the product quantity' className='outline-none border-2 border-black rounded-md mt-2 pl-3 py-1' value={quantities[item.id]||parseInt(1)} onChange={(e)=>handleQuantityChange(e,item.id)} min={0}/>
                             </div>
 
                         </div>

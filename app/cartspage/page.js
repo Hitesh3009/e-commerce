@@ -6,11 +6,12 @@ const CartsPage = () => {
     const [quantities, setQuantities] = useState({});
     const [cartProdArr, setCartProdArr] = useState([]);
 
-    const handleQuantityChange = (e,prod_id) => {
-        const newQuantity =e.target.value;
+    const handleQuantityChange = (e, prod_id) => {
+        const newQuantity = e.target.value;
+        if (isNaN(newQuantity)) newQuantity = 0; // Handle non-numeric input
         setQuantities({
             ...quantities,
-            [prod_id]:newQuantity>=0?newQuantity:0
+            [prod_id]: newQuantity >= 0 ? newQuantity : 0
         });
     }
 
@@ -22,9 +23,9 @@ const CartsPage = () => {
     const totalPrice = () => {
         let sum = 0;
         for (let i = 0; i < cartProdArr.length; i++) {
-            const price = cartProdArr[i].price;
-            const prod_id = cartProdArr[i].id;
-            sum += price * quantities[prod_id];
+            const product = cartProdArr[i];
+            const quantity = quantities[product.id] || 1;
+            sum += product.price * quantity;
         }
         return sum;
     }
@@ -37,9 +38,9 @@ const CartsPage = () => {
             const data = await res.json();
             setCartProdArr(data);
 
-            const initialQuantity={};
-            data.forEach(ele=>{
-                initialQuantity[ele.id]=1;
+            const initialQuantity = {};
+            data.forEach(ele => {
+                initialQuantity[ele.id] = 1;
             });
             setQuantities(initialQuantity);
         } catch (e) {
@@ -56,7 +57,7 @@ const CartsPage = () => {
         <div>
 
             {
-                cartProdArr ? <Cards products={cartProdArr} hideCartIcon={true} hidequantitiesField={false} quantities={quantities} handleQuantityChange={handleQuantityChange} /> : <div className='flex flex-col h-screen flex-wrap'>
+                cartProdArr.length>0 ? <Cards products={cartProdArr} hideCartIcon={true} hideQuantityField={false} quantities={quantities} handleQuantityChange={handleQuantityChange} /> : <div className='flex flex-col h-screen flex-wrap'>
                     <div className='my-auto flex flex-col'>
                         <span className='text-2xl font-semibold text-center'>No products added to the cart</span>
                         <span className='text-2xl font-semibold text-center'>Please add products to manage them</span>
