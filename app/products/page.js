@@ -10,7 +10,15 @@ const Products = ({ products }) => {
     
     // Handles the item count whenever the cart button is clicked
     const incrementItemCount = async (prod) => {
-        setTotalItemCount(prevCount=>prevCount+1); // increments the item count
+        // increments the item count
+        setTotalItemCount(prevCount => {
+            const newCount = prevCount + 1;
+            if (typeof window !== 'undefined') {
+                localStorage.setItem('product_in_cart_count', newCount); //sets the product count in the cart with the updated count to display correct count
+            }
+            return newCount;
+        }); 
+        
         setIsItemAdded(true); // sets alert true
         let updatedProdArr = [...prodArr, prod]; // this array is made so as to avoid the issue where the updated state lags one step behind.
         setProdArr(updatedProdArr); // adds newly added product in array retaining the already added ones
@@ -66,7 +74,7 @@ const Products = ({ products }) => {
 
             {/* Displays all the cards for the products inside the product array */}
                 {
-                    products.length>0 ? <Cards products={products} incrementItemCount={incrementItemCount} hideCartIcon={false} hideQuantityField={true} hideDeleteIcon={true}/>: <div className='flex flex-col h-screen flex-wrap'>
+                    products.length>0 ? <Cards products={products} incrementItemCount={incrementItemCount} hideCartIcon={false} hideQuantityField={true} hideDeleteIcon={true} quantities={{}}/>: <div className='flex flex-col h-screen flex-wrap'>
                     <div className='my-auto flex flex-col'>
                         <span className='text-2xl font-semibold text-center'>No product available to be displayed</span>
                     </div>

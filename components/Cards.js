@@ -77,7 +77,7 @@ const Cards = ({ products, incrementItemCount, hideCartIcon, hideQuantityField, 
                         <div className={`QuantityContainer ${hideQuantityField === true && 'hidden'}`} >
                             <div className='flex flex-col items-center'>
                                 <label htmlFor="quantity" className='text-lg font-semibold'>Quantity</label>
-                                <input type="number" aria-placeholder='Set the product quantity' className='outline-none border-2 border-black rounded-md mt-2 pl-3 py-1' value={1} onChange={(e) => handleQuantityChange(e, item.id)} min={0} />
+                                <input type="number" aria-placeholder='Set the product quantity' className='outline-none border-2 border-black rounded-md mt-2 pl-3 py-1' value={quantities[item.id]||1} onChange={(e) => handleQuantityChange(e, item.id)} min={0} />
                             </div>
 
                         </div>
