@@ -1,5 +1,7 @@
+import { Suspense } from "react";
 import Products from "./products/page";
 import {promises as fs} from 'fs';
+import Loading from "./loading";
 export default async function Home() {
   
   const getProducts = async () => {
@@ -15,9 +17,11 @@ export default async function Home() {
 
   return (
     <>
+    <Suspense fallback={<Loading/>}>
       <main className="flex min-h-screen flex-col items-center p-5">
         <Products products={filteredProducts} />
       </main>
+    </Suspense>
     </>
   );
 }

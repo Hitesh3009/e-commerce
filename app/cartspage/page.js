@@ -1,10 +1,12 @@
 'use client';
 import Cards from '@/components/Cards';
+import { Alert } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 
 const CartsPage = () => {
     const [quantities, setQuantities] = useState({});
     const [cartProdArr, setCartProdArr] = useState([]);
+    const [isProdRemove, setProdRemove] = useState(false);
 
     const handleQuantityChange = (e,prod_id) => {
         const newQuantity =e.target.value;
@@ -31,6 +33,11 @@ const CartsPage = () => {
             }
             else{
                 setCartProdArr(cartProdArr.filter(product=>product.id!==id));
+                setProdRemove(true);
+
+                setTimeout(() => {
+                    setProdRemove(false);
+                }, 1500);
             }
             console.log('Deleted Successfully');
         } catch (e) {
@@ -48,8 +55,12 @@ const CartsPage = () => {
         return sum;
     }
     
-    localStorage.setItem('product_in_cart_count',cartProdArr.length);
-    
+    useEffect(()=>{
+        if(window!=='undefined'){
+            localStorage.setItem('product_in_cart_count',cartProdArr.length);
+        }
+    },[]);
+
     const getCartProducts = async () => {
         try {
             const res = await fetch('http://localhost:3000/api/productsincart');
@@ -76,7 +87,13 @@ const CartsPage = () => {
 
     return (
         <div>
-
+            {
+                isProdRemove&&<div className="flex justify-center my-2 sticky top-5 z-50" >
+                    <Alert variant='filled' severity='success' className='w-72'>
+                    <p>Item removed Successfully</p>
+                </Alert>
+                </div>
+            }
             {
                 cartProdArr ? <Cards products={cartProdArr} hideCartIcon={true} hidequantitiesField={false} quantities={quantities} handleQuantityChange={handleQuantityChange} hideDeleteIcon={false} removeProd={removeProd}/> : <div className='flex flex-col h-screen flex-wrap'>
                     <div className='my-auto flex flex-col'>

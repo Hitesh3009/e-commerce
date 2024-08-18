@@ -19,7 +19,7 @@ const Cards = ({ products, incrementItemCount, hideCartIcon, hideQuantityField, 
         <div className='flex flex-wrap justify-evenly mx-10'>
             {
                 products.length > 0 ? products.map((item) => (
-                    <div className='card flex flex-col border-2 border-gray-400 w-64 md:w-72 p-3 my-7' key={item.id}>
+                    <div className='card flex flex-col border-2 border-gray-400 w-64 md:w-72 p-3 my-7 md:mx-3' key={item.id}>
 
                         <div className='flex justify-between items-center my-1'>
 
