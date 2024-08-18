@@ -42,6 +42,7 @@ const Products = ({ products }) => {
     }
     
     useEffect(()=>{
+        // gets the product count in cart so as to display the correct number of products in the cart
         if(typeof window!=='undefined'){
             const prod_count=localStorage.getItem('product_in_cart_count');
             if(prod_count){
@@ -59,12 +60,20 @@ const Products = ({ products }) => {
 
             {/* Shows the item count */}
             <div className='flex flex-col items-center'>
-                <Link href='/cartspage' className=' hover:transform hover:scale-110'><button className="bg-blue-500 px-4 py-2.5 text-white"><i className="fa-solid fa-cart-shopping text-xl" />&nbsp;&nbsp;{totalItemCount}</button></Link>
+                <Link href='/cartspage' className=' hover:transform hover:scale-110'><button className="bg-blue-500 px-4 py-2.5 text-white"><i className="fa-solid fa-cart-shopping text-xl" aria-hidden/>&nbsp;&nbsp;{totalItemCount}</button></Link>
                 <span className='mt-3 text-xl font-semibold'>Click on cart to manage products</span>
             </div>
 
             {/* Displays all the cards for the products inside the product array */}
-                <Cards products={products} incrementItemCount={incrementItemCount} hideCartIcon={false} hideQuantityField={true} hideDeleteIcon={true}/>
+                {
+                    products.length>0 ? <Cards products={products} incrementItemCount={incrementItemCount} hideCartIcon={false} hideQuantityField={true} hideDeleteIcon={true}/>: <div className='flex flex-col h-screen flex-wrap'>
+                    <div className='my-auto flex flex-col'>
+                        <span className='text-2xl font-semibold text-center'>No product available to be displayed</span>
+                    </div>
+                </div>
+                }
+                
+                
         </>
     )
 }

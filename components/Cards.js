@@ -16,16 +16,17 @@ const Cards = ({ products, incrementItemCount, hideCartIcon, hideQuantityField, 
     };
 
     return (
+        // displays all the products with their details inside card
         <div className='flex flex-wrap justify-evenly mx-10'>
             {
-                products.length > 0 ? products.map((item) => (
+                products.length > 0 && products.map((item) => (
                     <div className='card flex flex-col border-2 border-gray-400 w-64 md:w-72 p-3 my-7 md:mx-3' key={item.id}>
 
                         <div className='flex justify-between items-center my-1'>
 
                             {/* Displays the product ratings */}
                             <div className='flex items-center space-x-2'>
-                                <i className="fa-solid fa-star" style={{ color: '#FFD43B' }}></i>
+                                <i className="fa-solid fa-star" style={{ color: '#FFD43B' }} aria-hidden></i>
                                 <p>{item.rating.rate}</p>
                             </div>
 
@@ -61,16 +62,18 @@ const Cards = ({ products, incrementItemCount, hideCartIcon, hideQuantityField, 
                                 <p>{formatPrice(item.price)}</p>
                             </div>
 
-                            {/* Displays the cart icon and handles the increment in item count and passes the added product info to the incrementItemCount function*/}
+                            {/* Displays the cart icon and handles the increment in item count and passes the added product info to the incrementItemCount function hides it on the cart page*/}
                             <div className={`AddToCartBtn ${hideCartIcon === true && 'hidden'}`}>
                                 <AddToCart incrementItemCount={() => incrementItemCount({ id: item.id, title: item.title, image: item.image, price: item.price, rating: { rate: item.rating.rate }, category: item.category })} />
                             </div>
 
+                            {/* displays the trash icon used to remove the product from the cart and hides this icon on main page */}
                             <div className={`${hideDeleteIcon === true && 'hidden'}`}>
-                                <button className='text-sm font-semibold' onClick={()=>removeProd(item.id)}>Remove from cart<i className="fa-solid fa-trash text-xl px-1"></i></button>
+                                <button className='text-sm font-semibold' onClick={()=>removeProd(item.id)}>Remove from cart<i className="fa-solid fa-trash text-xl px-1" aria-hidden></i></button>
                             </div>
                         </div>
 
+                        {/* Displays the input field to change the product quantity and hides it on main page */}
                         <div className={`QuantityContainer ${hideQuantityField === true && 'hidden'}`} >
                             <div className='flex flex-col items-center'>
                                 <label htmlFor="quantity" className='text-lg font-semibold'>Quantity</label>
@@ -81,12 +84,7 @@ const Cards = ({ products, incrementItemCount, hideCartIcon, hideQuantityField, 
                     </div>
 
                 )
-                ) : <div className='flex flex-col h-screen flex-wrap'>
-                <div className='my-auto flex flex-col'>
-                    <span className='text-2xl font-semibold text-center'>No products added to the cart</span>
-                    <span className='text-2xl font-semibold text-center'>Please add products to manage them</span>
-                </div>
-            </div>
+                ) 
             }
         </div>
     )

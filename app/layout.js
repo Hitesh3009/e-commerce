@@ -18,6 +18,7 @@ export default function RootLayout({ children }) {
         <AppRouterCacheProvider>
           {children}
         </AppRouterCacheProvider>
+        {/* script used to make use of icons from font awesome website */}
         <Script src="https://kit.fontawesome.com/52afc80947.js" />
       </body>
     </html>

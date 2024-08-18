@@ -16,7 +16,7 @@ export async function POST(req){
         //Display the error message as json response
         return new Response(JSON.stringify({error:'Failed to add the cart products data'}),{
             headers:{'Content-Type': 'application/json'},
-            status:400
+            status:500
         });
     }
 

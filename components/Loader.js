@@ -6,7 +6,7 @@ const Loader = () => {
             <div className='flex items-center h-screen justify-center'>
                 <div className='flex items-center justify-center bg-black px-3 rounded-2xl my-auto'>
                     <div className='w-20 h-20 relative'>
-                        <Image src='/loading.gif' fill sizes='auto'/>
+                        <Image src='/loading.gif' fill sizes='auto'/> {/*loader gif to be displayed while loading */}
                     </div>  
                 <p className='text-xl text-white'>Loading data</p>
                 </div>
