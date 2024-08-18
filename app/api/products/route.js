@@ -13,7 +13,7 @@ export async function GET(){
         return new Response(JSON.stringify(productArr),{
             headers:{'Content-Type': 'application/json'},
             status: 200,
-        })
+        });
     }catch(e){
         console.error(e.message); // Logs the error message
 
@@ -21,6 +21,6 @@ export async function GET(){
         return new Response(JSON.stringify({error:'Failed to fetch products, please try again later.'}),{
             headers:{'Content-Type': 'application/json'},
             status: 500,
-        })
+        });
     }
 }
