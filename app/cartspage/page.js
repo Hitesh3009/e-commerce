@@ -48,6 +48,8 @@ const CartsPage = () => {
         return sum;
     }
     
+    localStorage.setItem('product_in_cart_count',cartProdArr.length);
+    
     const getCartProducts = async () => {
         try {
             const res = await fetch('http://localhost:3000/api/productsincart');

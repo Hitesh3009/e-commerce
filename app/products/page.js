@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Alert } from '@mui/material';
 import Link from 'next/link';
 import Cards from '@/components/Cards';
@@ -10,7 +10,7 @@ const Products = ({ products }) => {
     
     // Handles the item count whenever the cart button is clicked
     const incrementItemCount = async (prod) => {
-        setTotalItemCount(prevCount => prevCount + 1); // increments the item count
+        setTotalItemCount(prevCount=>prevCount+1); // increments the item count
         setIsItemAdded(true); // sets alert true
         let updatedProdArr = [...prodArr, prod]; // this array is made so as to avoid the issue where the updated state lags one step behind.
         setProdArr(updatedProdArr); // adds newly added product in array retaining the already added ones
@@ -40,6 +40,15 @@ const Products = ({ products }) => {
             console.error('Error adding product to cart:', e.message); // displays error message if anything happens while adding the data
         }
     }
+    
+    useEffect(()=>{
+        if(typeof window!=='undefined'){
+            const prod_count=localStorage.getItem('product_in_cart_count');
+            if(prod_count){
+                setTotalItemCount(Number(prod_count));
+            }
+        }
+    },[]);
 
     return (
         <>

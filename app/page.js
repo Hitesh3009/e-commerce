@@ -1,5 +1,5 @@
 import Products from "./products/page";
-
+import {promises as fs} from 'fs';
 export default async function Home() {
   
   const getProducts = async () => {
@@ -9,10 +9,14 @@ export default async function Home() {
   }
 
   const products = await getProducts();
+  const jsonData =await fs.readFile('cartproducts/products.json','utf-8');
+  const products_in_cart=JSON.parse(jsonData);
+  const filteredProducts = products.filter(product => !products_in_cart.some(cartItem => cartItem.id === product.id));
+
   return (
     <>
       <main className="flex min-h-screen flex-col items-center p-5">
-        <Products products={products} />
+        <Products products={filteredProducts} />
       </main>
     </>
   );
